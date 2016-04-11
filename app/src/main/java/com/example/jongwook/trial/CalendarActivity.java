@@ -1,5 +1,7 @@
 package com.example.jongwook.trial;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.alamkanak.weekview.WeekViewEvent;
@@ -144,6 +146,9 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Even
     protected String getEventTitle(Calendar time) {
         return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
     }
+    protected String getSimpleEventTitle(Calendar time) {
+        return String.format("%s/%d %02d시", time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH), time.get(Calendar.HOUR_OF_DAY));
+    }
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
@@ -157,7 +162,17 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Even
 
     @Override
     public void onEmptyViewLongPress(Calendar time) {
-        Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(this)
+                .setTitle("예약")
+                .setMessage(getSimpleEventTitle(time) + " 예약 하시겠습니까?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(CalendarActivity.this, "예약성공", Toast.LENGTH_SHORT).show();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+        //Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
     }
 
     public WeekView getWeekView() {
