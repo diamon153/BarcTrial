@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +40,19 @@ public class MainActivity extends AppCompatActivity {
         date2 = new Date(116, 3, 6);
         caldroidFragment.setBackgroundDrawableForDate(green, date1);
         caldroidFragment.setBackgroundDrawableForDate(red, date2);
+
+        final CaldroidListener listener = new CaldroidListener() {
+
+            @Override
+            public void onSelectDate(Date date, View view) {
+                Toast.makeText(getApplicationContext(), date.toString(),
+                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, DietActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        caldroidFragment.setCaldroidListener(listener);
 
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.calendar1, caldroidFragment);
