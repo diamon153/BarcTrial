@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     public void changeToCal(View view) {
         Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
         startActivity(intent);
-        return;
+    }
+
+    public void pastReservation(View view) {
+        Intent intent = new Intent(MainActivity.this, PastActivity.class);
+        startActivity(intent);
     }
 }
